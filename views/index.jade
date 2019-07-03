@@ -1,5 +1,8 @@
 extends layout
 
 block content
+  each thing in things
+    a(href="/ftp/" + thing)
+      p= thing
   h1= title
   p Welcome to #{title}
