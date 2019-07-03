@@ -50,8 +50,10 @@ app.use('/hit', async function(req, res){
 
 app.use('/uploads', express.static('../uploads'));
 
+app.use('/index', express.static('../uploads'), serveIndex('../uploads', {'icons': true}))
 
-app.use('/uploads', express.static(path.join(__dirname, 'public')));
+
+app.use('/index', express.static(path.join(__dirname, 'public')));
 
 
 // app.use('/', routes);

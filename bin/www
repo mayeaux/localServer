@@ -28,6 +28,18 @@ var server = http.createServer(app);
  */
 
 
+// var ip = req.headers['x-forwarded-for'] ||
+//   req.connection.remoteAddress ||
+//   req.socket.remoteAddress ||
+//   (req.connection.socket ? req.connection.socket.remoteAddress : null);
+//
+//
+// console.log('ip')
+// console.log(ip)
+
+require('dns').lookup(require('os').hostname(), function (err, addr, fam) {
+  console.log('addr: '+addr);
+})
 
 server.listen(80);
 server.on('error', onError);

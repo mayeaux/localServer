@@ -3,6 +3,6 @@ extends layout
 block content
   div(style="width:600px")
     each thing in things
-      a(href="/uploads/" + thing)
+      a(href=`/uploads/${encodeURIComponent(thing)}`)
         p(style="font-size:24px")= thing
 
