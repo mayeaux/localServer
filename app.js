@@ -26,6 +26,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
 app.use('/hit', async function(req, res){
 
   const directory = '../uploads/';
@@ -46,7 +48,7 @@ app.use('/hit', async function(req, res){
   });
 });
 
-app.use('/ftp', express.static('../uploads'), serveIndex('../uploads', {'icons': true}))
+app.use('/uploads', express.static('../uploads'));
 
 
 app.use('/uploads', express.static(path.join(__dirname, 'public')));
