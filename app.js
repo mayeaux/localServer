@@ -79,6 +79,7 @@ app.get('/', async function(req, res){
 
 app.use('/uploads', express.static('../uploads'));
 
+
 app.use('/index', express.static('../uploads'), serveIndex('../uploads', {'icons': true}))
 
 
@@ -87,6 +88,59 @@ app.use('/index', express.static(path.join(__dirname, 'public')));
 
 // app.use('/', routes);
 app.use('/users', users);
+
+app.get('/uploads/*', async function(req, res){
+  console.log(req.path);
+  // res.send('hello');
+
+  const directory = '..' + req.path;
+
+  var things = fs.readdirSync(directory);
+
+  things.sort(function(a, b) {
+
+    return fs.statSync(directory + a).mtime.getTime() -
+      fs.statSync(directory + b).mtime.getTime();
+  });
+
+  things.reverse();
+
+  let items = [];
+
+  for(const thing of things){
+
+    console.log(fs.lstatSync(directory + thing).isFile());
+    console.log(fs.lstatSync(directory + thing).isDirectory());
+
+    var obj = {
+      title: thing,
+      isFile: fs.lstatSync(directory + thing).isFile(),
+      isDirectory: fs.lstatSync(directory + thing).isDirectory()
+    };
+
+    items.push(obj);
+
+
+    // console.log(thing);
+
+
+    // var data = fs.statSync(directory + thing);
+
+
+
+    // console.log(data);
+  }
+
+  // console.log(things);
+
+
+  res.render('index1', {
+    title: 'Express',
+    things : items,
+    reqPath: req.path
+  });
+
+});
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
