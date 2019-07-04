@@ -90,55 +90,62 @@ app.use('/index', express.static(path.join(__dirname, 'public')));
 app.use('/users', users);
 
 app.get('/uploads/*', async function(req, res){
-  console.log(req.path);
-  // res.send('hello');
 
-  const directory = '..' + req.path;
+  try {
 
-  var things = fs.readdirSync(directory);
+    console.log(req.path);
+    // res.send('hello');
 
-  things.sort(function(a, b) {
+    const directory = '..' + decodeURIComponent(req.path);
 
-    return fs.statSync(directory + a).mtime.getTime() -
-      fs.statSync(directory + b).mtime.getTime();
-  });
+    var things = fs.readdirSync(directory);
 
-  things.reverse();
+    things.sort(function (a, b) {
 
-  let items = [];
+      return fs.statSync(directory + a).mtime.getTime() -
+        fs.statSync(directory + b).mtime.getTime();
+    });
 
-  for(const thing of things){
+    things.reverse();
 
-    console.log(fs.lstatSync(directory + thing).isFile());
-    console.log(fs.lstatSync(directory + thing).isDirectory());
+    let items = [];
 
-    var obj = {
-      title: thing,
-      isFile: fs.lstatSync(directory + thing).isFile(),
-      isDirectory: fs.lstatSync(directory + thing).isDirectory()
-    };
+    for (const thing of things) {
 
-    items.push(obj);
+      console.log(fs.lstatSync(directory + thing).isFile());
+      console.log(fs.lstatSync(directory + thing).isDirectory());
 
+      var obj = {
+        title: thing,
+        isFile: fs.lstatSync(directory + thing).isFile(),
+        isDirectory: fs.lstatSync(directory + thing).isDirectory()
+      };
 
-    // console.log(thing);
-
-
-    // var data = fs.statSync(directory + thing);
+      items.push(obj);
 
 
+      // console.log(thing);
 
-    // console.log(data);
+
+      // var data = fs.statSync(directory + thing);
+
+
+      // console.log(data);
+    }
+
+    // console.log(things);
+
+
+    res.render('index1', {
+      title: 'Express',
+      things: items,
+      reqPath: req.path
+    });
+
+  } catch (err){
+    console.log(err);
+    res.send(err);
   }
-
-  // console.log(things);
-
-
-  res.render('index1', {
-    title: 'Express',
-    things : items,
-    reqPath: req.path
-  });
 
 });
 
