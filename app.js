@@ -35,16 +35,45 @@ app.use('/hit', async function(req, res){
   var things = fs.readdirSync(directory);
 
   things.sort(function(a, b) {
+
     return fs.statSync(directory + a).mtime.getTime() -
       fs.statSync(directory + b).mtime.getTime();
   });
 
   things.reverse();
 
+  let items = [];
+
+  for(const thing of things){
+
+    console.log(fs.lstatSync(directory + thing).isFile());
+    console.log(fs.lstatSync(directory + thing).isDirectory());
+
+    var obj = {
+      title: thing,
+      isFile: fs.lstatSync(directory + thing).isFile(),
+      isDirectory: fs.lstatSync(directory + thing).isDirectory()
+    };
+
+    items.push(obj);
+
+
+    // console.log(thing);
+
+
+    // var data = fs.statSync(directory + thing);
+
+
+
+    // console.log(data);
+  }
+
+  // console.log(things);
+
 
   res.render('index', {
     title: 'Express',
-    things
+    things : items
   });
 });
 

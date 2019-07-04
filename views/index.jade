@@ -3,6 +3,10 @@ extends layout
 block content
   div(style="width:600px")
     each thing in things
-      a(href=`/uploads/${encodeURIComponent(thing)}`)
-        p(style="font-size:24px")= thing
+      a(href=`/uploads/${encodeURIComponent(thing.title)}`)
+        if thing.isFile
+            p(style="font-size:24px;")= thing.title
+        else if thing.isDirectory
+          a(href=`/uploads/${encodeURIComponent(thing.title)}`)
+            p(style="font-size:24px;color:black;")= thing.title
 
