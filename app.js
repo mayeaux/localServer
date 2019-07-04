@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-app.use('/hit', async function(req, res){
+app.get('/', async function(req, res){
 
   const directory = '../uploads/';
 
