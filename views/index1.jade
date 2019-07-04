@@ -3,7 +3,7 @@ extends layout
 block content
   div(style="width:600px")
     each thing in things
-      p= reqPath
+      //p= reqPath
       a(href=`${reqPath}${encodeURIComponent(thing.title)}`)
         if thing.isFile
             p(style="font-size:24px;")= thing.title
